@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+'use strict'
+const cac = require('cac')
+const ora = require('ora')
+const chalk = require('chalk')
+const update = require('update-notifier')
+const log = require('../lib/log')
+
+const cli = cac()
+
+cli.command('*', 'Generate a new project', (input, flags) => {
+  const template = input[0]
+  if (!template) {
+    return cli.showHelp()
+  }
+
+  const sao = require('../lib')
+  const event = require('../lib/event')
+
+  const spinner = ora()
+  event.on('download:start', () => {
+    spinner.text = 'Downloading...'
+    spinner.start()
+  })
+  event.on('download:stop', () => {
+    spinner.stop()
+  })
+  event.on('install-template:start', packageName => {
+    console.log(chalk.yellow(`> Installing ${packageName}...`))
+  })
+
+  const options = Object.assign({
+    template,
+    targetFolder: input[1]
+  }, flags)
+
+  return sao(options)
+    .catch(err => {
+      spinner.stop()
+      if (err.name === 'SAOError') {
+        log.error(err.message)
+      } else {
+        console.log(err.stack)
+      }
+      process.exit(1)
+    })
+})
+
+cli
+  .option('c, config', 'Use custom config file')
+  .option('git-cache', 'Use cached version for a repo template')
+  .option('i, install', 'Install relavant npm package before generating')
+
+update({pkg: cli.pkg}).notify()
+cli.parse()
