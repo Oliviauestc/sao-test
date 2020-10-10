@@ -1,13 +1,13 @@
 {
-  "name": "sao",
-  "version": "0.13.0",
+  "name": "sao_test",
+  "version": "0.1.0",
   "description": "Futuristic project generator.",
   "license": "MIT",
-  "repository": "egoist/sao",
+  "repository": "Oliviauestc/sao-test",
   "author": {
-    "name": "EGOIST",
-    "email": "0x142857@gmail.com",
-    "url": "github.com/egoist"
+    "name": "wangqinyuan",
+    "email": "952826347@qq.com",
+    "url": "https://github.com/Oliviauestc/sao-test.git"
   },
   "engines": {
     "node": ">=6"
