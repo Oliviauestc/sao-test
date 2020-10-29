@@ -13,6 +13,10 @@ your-template/
   └── template/
 ```
 
+<p class="warning">
+  如果你要把模板发布到 npm，请不要在 template 目录中存放 `.gitignore` 文件，因为 npm 会自动把它重命名为 `.npmignore`。你可以用个临时的文件名然后用 [move](#move) 来重命名。 
+</p>
+
 ## 配置文件
 
 默认的配置文件是 `sao.js`，如果项目中有这个文件那它就会复制 `template` 目录，反之则直接复制根目录。
@@ -53,7 +57,7 @@ module.exports = {
 }
 ```
 
-#### Role
+#### role
 
 我们的命令提示还有一个额外的属性 `role`，用它给你的提示赋予一些默认的行为:
 
@@ -76,7 +80,11 @@ module.exports = {
 - `git:name`: 把默认值设置为 git 用户名
 - `git:email`: 把默认值设置为 git 邮箱
 
-### Filters
+#### store
+
+存储用户输入的内容供下次使用。
+
+### filters
 
 你还可以用从命令行提示获取的数据来过滤文件:
 
@@ -162,6 +170,10 @@ module.exports = {
 }
 ```
 
+<p class="tip">
+  如果是 handlebars 的话你其实可以不安装 `jstransfomer-handlebars`，因为 sao 已经自带了这个模板引擎。
+</p>
+
 ### 生命周期
 
 #### post 钩子
@@ -176,59 +188,69 @@ module.exports = {
 }
 ```
 
-## context
+### templateFolder
 
-你可能注意到了，`post` 钩子又一个 `context` 参数:
+默认会复制 `template` 目录里的内容，不过你也可以自定义一个目录:
 
-```json
-{
-  "name": "<%= _.folderName %>"
+```js
+module.exports = {
+  // 复制根目录
+  templateFolder: './'
 }
 ```
 
-### isNewFolder
+### context
+
+你可能注意到了，`post` 钩子又一个 `context` 参数:
+
+```js
+module.exports = {
+  post(context) {
+    console.log(context.isNewFolder)
+    // ...
+  }
+}
+```
+
+#### isNewFolder
 
 Type: `boolean`
 
 目标文件夹是否是新文件夹。
 
-### folderName
+#### folderName
 
 Type: `string`
 
 目标文件夹的名字。
 
-### folderPath
+#### folderPath
 
 Type: `string`
 
 目标文件夹的路径。
 
-### install
+#### install
 
 Type: `function`
 
 在目标文件夹执行 `yarn install` 或者 `npm install`，直接调用 `install()` 就行了。
 
-### init
+#### init
 
 Type: `function`
 
 在目标文件夹执行 `git init`，直接调用 `init()` 就行了。
 
-### log
+#### log
 
 一个生成易读日志的组件，你可以调用: `log.info(msg)` `log.error(msg)` `log.success(msg)` `log.warn(msg)`
 
-### chalk
+#### chalk
 
 [chalk](https://github.com/chalk/chalk) 模块
 
-### $
-
-[shelljs](https://github.com/shelljs/shelljs) 模块。
-
-### data
+#### answers
 
 命令行提示的返回结果。
 
