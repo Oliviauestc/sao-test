@@ -1,11 +1,11 @@
 {
   "name": "iota-cli",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Futuristic project generator.",
   "license": "MIT",
   "repository": "Oliviauestc/sao-test",
   "author": {
-    "name": "EGOIST",
+    "name": "wangqinyuan",
     "email": "952826347@qq.com",
     "url": "https://github.com/Oliviauestc"
   },
